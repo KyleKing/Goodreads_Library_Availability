@@ -102,3 +102,11 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# =============
+# Custom Ignore
+.vscode
+**/.env*
+*.csv
+*.html
+*.xml
