@@ -1,3 +1,5 @@
+"""Test Goodreads To-Read functionality."""
+
 from os import unlink, getcwd
 from os.path import isfile, join
 from shutil import copyfile
@@ -9,7 +11,7 @@ envBackupFn = '.env-backup.json'
 
 
 def backupEnv():
-    """Backup the environment file"""
+    """Backup the environment file."""
     if isfile(envFn):
         if isfile(envBackupFn):
             unlink(envBackupFn)
@@ -19,7 +21,7 @@ def backupEnv():
 
 
 def restoreEnv():
-    """Restore the environment file"""
+    """Restore the environment file."""
     if isfile(envFn):
         if isfile(envBackupFn):
             unlink(envFn)
@@ -31,7 +33,7 @@ def restoreEnv():
 
 
 def test_loadEnv():
-    """Test that the minimum keys exist in the env"""
+    """Test that the minimum keys exist in the env."""
     backupEnv()
     env = loadEnv()
     assert CONSUMER_KEY in env

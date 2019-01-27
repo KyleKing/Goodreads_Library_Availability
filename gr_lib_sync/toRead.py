@@ -1,4 +1,4 @@
-"""Download CSV Summary of Goodreads To-Read Shelf"""
+"""Download CSV Summary of Goodreads To-Read Shelf."""
 # Based on: https://www.goodreads.com/api/oauth_example#python
 # Also see: https://gist.github.com/gpiancastelli/537923
 #  & https://gist.github.com/5862716.git
@@ -30,17 +30,17 @@ USER_ID = 'user_id'
 
 
 def updateEnv(_env):
-    """Backup environment to local file
+    """Backup environment to local file.
 
     _env -- environment JSON dictionary
 
     """
     with open(envFn, 'w') as envFile:
-        json.dump(_env, envFile, indent="\t", separators=(',', ': '))
+        json.dump(_env, envFile, indent='\t', separators=(',', ': '))
 
 
 def loadEnv():
-    """Read environment from local file"""
+    """Read environment from local file."""
     if not isfile(envFn):
         # Initialize environment file if one does not exist
         data = {CONSUMER_KEY: 'TBD', CONSUMER_SECRET: 'TBD'}
@@ -50,13 +50,13 @@ def loadEnv():
 
 
 def clearCache():
-    """Clear the XML directory"""
+    """Clear the XML directory."""
     if isdir(xmlDir):
         rmtree(xmlDir)
 
 
 def downloadGRShelf():
-    """Create a CSV summary of all books on a users' Goodreads Want to Read list"""
+    """Create a CSV summary of all books on a users' Goodreads To-Read list."""
     env = loadEnv()
 
     # Verify consumer key exists in environment
@@ -110,10 +110,10 @@ def downloadGRShelf():
     )
 
     # Get user id for user who authorized the session
-    if USRE_ID not in env:
+    if USER_ID not in env:
         response = newSession.get('https://www.goodreads.com/api/auth_user')
         root = ET.fromstring(response.text)
-        env[USRE_ID] = root.find('user').attrib['id']
+        env[USER_ID] = root.find('user').attrib['id']
         updateEnv(env)
         time.sleep(1)  # Sleep to prevent too many GR requests
 
@@ -141,7 +141,7 @@ def downloadGRShelf():
             print('Querying page: {}'.format(page))
             data = {
                 'v': 2,
-                'id': env[USRE_ID],
+                'id': env[USER_ID],
                 'shelf': 'to-read',
                 'sort': 'avg_rating',
                 'order': 'd',
