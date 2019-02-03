@@ -108,6 +108,7 @@ venv.bak/
 .vscode
 **/.env*
 *.csv
+*.numbers
 *.html
 *.xml
 **/raw*

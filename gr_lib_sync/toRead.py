@@ -166,13 +166,32 @@ def downloadGRShelf():
     print('Creating CSV File summary: {}'.format(csvFn))
     with open(csvFn, 'w') as csvFile:
         csvWriter = csv.writer(csvFile)
-        csvWriter.writerow(legend)
+        csvWriter.writerow(legend + ['author'])
         for xmlFn in iglob(join(xmlDir, '*')):
             root = ET.parse(xmlFn).getroot()
             for child in root.iter('book'):
                 # for kid in child:
                 #     print(kid.tag, kid.attrib, kid.text)
-                csvWriter.writerow([child.find(key).text for key in legend])
+                row = [child.find(key).text for key in legend]
+                for author in child.iter('author'):
+                    row.append(author.find('name').text)
+                csvWriter.writerow(row)
+
+
+def listBooks():
+    """Return list of books"""
+    books = []
+    with open(csvFn, 'r') as csvFile:
+        for idx, row in enumerate(csv.reader(csvFile)):
+            if idx == 0:
+                legend = row
+            else:
+                books.append({
+                    'title': row[legend.index('title_without_series')],
+                    'author': row[legend.index('author')],
+                    'rating': row[legend.index('average_rating')]
+                })
+    return books
 
 
 if __name__ == '__main__':

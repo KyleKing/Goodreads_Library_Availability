@@ -9,6 +9,8 @@ license = "MIT"
 python = "^3.6"
 rauth = "^0.7.3"
 beautifulsoup4 = "^4.7"
+selenium = "^3.141"
+jsonlines = "^1.2"
 
 [tool.poetry.dev-dependencies]
 pytest = "^3.0"
