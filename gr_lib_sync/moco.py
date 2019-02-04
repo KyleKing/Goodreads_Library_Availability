@@ -70,24 +70,42 @@ def parseSoup(soup):
     # Loop each search results to filter for best matches
     books = []
     for rIdx, content in enumerate(bookList):
+        _title = selectOne(content, 'div.displayElementText.INITIAL_TITLE_SRCH')
+        if type(_title) is not str:
+            _title = selectOne(content, 'div.displayElementText.TITLE')
+        if type(_title) is not str:
+            _title = selectOne(content, 'a.hideIE')
+
         _author = selectOne(content, 'div.displayElementText.INITIAL_AUTHOR_SRCH')
         if type(_author) is not str:
             _author = selectOne(content, 'div.displayElementText.AUTHOR')
-        _author = parseAuthor(_author)
-        try:
-            _title = content.a['title']
-        except TypeError:
-            _title = selectOne(content, 'a.title')
-        if type(_title) is not str:
-            _title = selectOne(content, 'div.displayElementText.TITLE')
-        _title = parseTitle(_title)
+
+        book = {
+            'title': parseTitle(_title), 'author': parseAuthor(_author),
+            'kindle': False, 'eResource': False, 'physical': False, 'audio': False
+        }
+
         _format = selectOne(content, 'div.displayElementText.ERC_FORMAT')
-        print('_format: {}'.format(_format))
-        books.append({
-            'title': _title,
-            'author': _author,
-            'format': _format
-        })
+        if type(_format) is not str:
+            # Check for physical book
+            _format = selectOne(content, 'div.displayElementText.PHYSICAL_DESC')
+            if type(_format) is not str:
+                isbn = selectOne(content, 'div.displayElementText.ISBN')
+                if type(isbn) is str:
+                    _format = 'ISBN: {}'.format(isbn)
+            if type(_format) is str:
+                book['physical'] = True
+        else:
+            if 'KINDLE' in _format:
+                book['kindle'] = True
+            elif 'CLOUDLIBRARY' in _format:
+                book['eResource'] = True
+            elif 'AUDIO' in _format:
+                book['audio'] = True
+
+        book['format'] = _format
+        books.append(book)
+        print('>> book: {}'.format(book))
     return books
 
 

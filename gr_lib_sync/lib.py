@@ -134,9 +134,12 @@ def selectOne(soup, classname):
     selection = soup.select(classname)
     try:
         items = [sel.string.strip() for sel in selection]
-        if len(items) > 1:
+        if len(items) == 0:
+            return None
+        elif len(items) == 1:
+            return items[0]
+        else:
             print('With `{}`, found: {}'.format(classname, items))
-        # return items[0]
-        return '--'.join(items)
+            return '--'.join(items)
     except IndexError:
         return None
