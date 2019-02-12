@@ -1,13 +1,33 @@
+body {
+  padding: 10px;
+}
+
 table.dataTable th,
 table.dataTable td {
   padding: 5px 7px;
 }
-
+table.dataTable th.col-wide {
+  width: 700px !important;
+}
+table.dataTable th.col-normal {
+  min-width: 170px;
+}
 table.dataTable th.col-narrow {
   padding: 1px 2px;
   font-size: 12px;
 }
 
-input {
+/* Style the Search Bar */
+th input {
   width: 95%;
+}
+
+/* Style the Revealed Row */
+tr.revealed-row-contents {
+  background-color: white !important;
+}
+
+table.revealed-row-contents {
+  background-color: grey;
+  margin-left: 40px;
 }

@@ -1,5 +1,7 @@
 """Core gr_lib_sync/ functionality."""
 
+import random
+
 import jsonlines
 
 from .moco import searchLib
@@ -20,7 +22,7 @@ def run(fresh=False):
 
     print('Creating Library Summary: {}'.format(jsonlFn))
 
-    with jsonlines.open(jsonlFn, 'a') as jWriter:
+    with jsonlines.open(jsonlFn, 'w') as jWriter:
         for bIdx, book in enumerate(listBooks()):
             book['idx'] = bIdx
             book['libMatches'], url = searchLib(book['title'], book['author'])
@@ -28,11 +30,12 @@ def run(fresh=False):
             countSum = 0
             for key in ['kindle', 'eResource', 'physical', 'audio']:
                 book[key] = len([True for _m in book['libMatches'] if _m[key]])
-                countSum += countSum
+                countSum += book[key]
             book['unknown'] = len(book['libMatches']) - countSum
+            book['random'] = random.randrange(100) / 10.0
 
             jWriter.write(book)
-            if bIdx >= 29:  # FYI: Debugging only
+            if bIdx >= 200:  # FYI: Debugging only
                 break
     # Format the jsonlines file as JavaScript to be read natively by the Web App
     with open(jsonlFn, 'r') as jlFile:

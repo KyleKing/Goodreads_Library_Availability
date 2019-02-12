@@ -27,7 +27,7 @@ def formatQuery(title):
     title -- book title
 
     """
-    return quote('___'.join(title.split(' '))).replace('___', '+')
+    return quote('___'.join(title.split(' ')).replace('/', ' ')).replace('___', '+')
 
 
 def getSnippetFn(query):

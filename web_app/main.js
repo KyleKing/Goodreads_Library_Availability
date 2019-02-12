@@ -12,10 +12,12 @@ $( document ).ready( () => {
         'width':'15px',
       },
       {
+        'className': 'col-wide',
         'data': 'tComps',
         'render': ( d ) => `<a href="${d.link}">${d.title}</a>`,
       },
       {
+        'className': 'col-normal',
         'data': 'author',
       },
       {
@@ -36,7 +38,7 @@ $( document ).ready( () => {
       },
       {
         'className': 'col-narrow',
-        'data': 'unknown',
+        'data': 'random',
       },
     ],
     'data': aggBooks,
@@ -113,7 +115,7 @@ $( document ).ready( () => {
       // Show the row and hack to style the parent row
       const rowClass = 'revealed-row-contents'
       row.child( addRow( row.data(), rowClass ) ).show()
-      $( `tr:has(span.${rowClass})` ).addClass( rowClass )
+      $( `tr:has(.${rowClass})` ).addClass( rowClass )
     }
   }
   // Use the unique ID from the icon
