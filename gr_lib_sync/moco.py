@@ -14,7 +14,7 @@ mocoURL = '{}?qu={}&{}'.format(base, '{query}', '&te=&rt=false%7C%7C%7CTITLE%7C%
 
 
 def getSoup(title, rawURL=mocoURL):
-    """Return the HTML response for a search of the public library.
+    """Return tuple of the HTML response for a search of the public library and raw URL.
 
     title -- book title
     rawURL -- (optional) URL string that contains '...{query}...'
@@ -22,22 +22,15 @@ def getSoup(title, rawURL=mocoURL):
     """
     query = formatQuery(title)
     url = rawURL.format(query=query)
-    print('\nSearching with query: {}\nURL:{}'.format(query, url))
 
-    # # FYI: enable pagination
+    # # FYI: for pagination...
     # page = 0
-    # startIdx = page * 12
+    # startIdx = page * 12  # default is 12 books/page
     # url += '&rw={}'.format(url, startIdx)
-
-    # # Alternative with selenium
-    # from selenium import webdriver
-    # driver = webdriver.Chrome()
-    # driver.get(url)
-    # time.sleep(10)
-    # resp = driver.page_source
 
     snippetFn = getSnippetFn(formatQuery(title))
     if not isfile(snippetFn):
+        print('\n>>Searching with query: {}\nURL:{}'.format(query, url))
         resp = requests.get(url).text
         time.sleep(1)  # Be kind and rate limit requests
 
@@ -46,10 +39,11 @@ def getSoup(title, rawURL=mocoURL):
         with open('rawMoco.html', 'w') as outFile:
             outFile.write(soup.prettify())
     else:
+        print('\n>>Loading from file for query: {}\nfile:{}'.format(query, snippetFn))
         with open(snippetFn, 'r') as snippetFile:
             soup = BeautifulSoup(snippetFile, 'html.parser')
 
-    return soup
+    return (soup, url)
 
 
 def parseSoup(soup):
@@ -110,14 +104,14 @@ def parseSoup(soup):
 
 
 def searchLib(title, author='', rawURL=mocoURL):
-    """Search the public library for books matching the title and author.
+    """Search the public library for books matching the title and author. Return tuple of matches and raw URL.
 
     title -- book title
     author -- (optional) book author
     rawURL -- (optional) URL string that contains '...{query}...'
 
     """
-    soup = getSoup(title)
+    soup, url = getSoup(title)
     books = parseSoup(soup)
 
     with open('rawMoco.json', 'w') as jsonFile:
@@ -126,12 +120,12 @@ def searchLib(title, author='', rawURL=mocoURL):
     # Return the best matches from all books returned in search
     matches = filterBooks({'title': title, 'author': author}, books)
     writeJLine({'Raw': books, 'matches': matches})
-    return matches
+    return (matches, url)
 
 
 def debug(title, author):
     """WIP: Wrapper for searchLib with STDOUT."""
-    resp = searchLib(title, author)
+    resp, url = searchLib(title, author)
     # print('title: {}'.format(title))
     # print('author: {}'.format(author))
     print(json.dumps(resp, indent=4, separators=(',', ': ')))

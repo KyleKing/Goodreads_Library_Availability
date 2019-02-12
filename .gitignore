@@ -107,8 +107,8 @@ venv.bak/
 # Custom Ignore
 .vscode
 **/.env*
+*.jsonl
 *.csv
 *.numbers
-*.html
 *.xml
 **/raw*

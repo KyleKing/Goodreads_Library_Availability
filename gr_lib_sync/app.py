@@ -1,11 +1,11 @@
 """Core gr_lib_sync/ functionality."""
 
-import csv
+import jsonlines
 
 from .moco import searchLib
 from .toRead import clearCache, downloadGRShelf, listBooks
 
-csvFn = 'library-summary.csv'
+jsonlFn = 'library-summary.jsonl'
 
 
 def run(fresh=False):
@@ -18,21 +18,26 @@ def run(fresh=False):
         clearCache()
     downloadGRShelf()
 
-    legend = [
-        'Title', 'Author', 'Rating', 'Lib-Format', 'Lib-Title', 'Lib-Author'
-    ]
-    print('Creating CSV Library Summary: {}'.format(csvFn))
-    with open(csvFn, 'w') as csvFile:
-        csvWriter = csv.writer(csvFile)
-        csvWriter.writerow(legend + ['author'])
-        for bIdx, book in enumerate(listBooks()):
-            row = [book['title'], book['author'], book['rating']]
-            for match in searchLib(book['title'], book['author']):
-                row.extend([match['format'], match['title'], match['author']])
-            csvWriter.writerow(row)
+    print('Creating Library Summary: {}'.format(jsonlFn))
 
-            if bIdx >= 29:
+    with jsonlines.open(jsonlFn, 'a') as jWriter:
+        for bIdx, book in enumerate(listBooks()):
+            book['idx'] = bIdx
+            book['libMatches'], url = searchLib(book['title'], book['author'])
+            book['tComps'] = {'title': book['title'], 'link': url}
+            countSum = 0
+            for key in ['kindle', 'eResource', 'physical', 'audio']:
+                book[key] = len([True for _m in book['libMatches'] if _m[key]])
+                countSum += countSum
+            book['unknown'] = len(book['libMatches']) - countSum
+
+            jWriter.write(book)
+            if bIdx >= 29:  # FYI: Debugging only
                 break
+    # Format the jsonlines file as JavaScript to be read natively by the Web App
+    with open(jsonlFn, 'r') as jlFile:
+        with open('web_app/{}.js'.format(jsonlFn.split('.')[0]), 'w') as jsFile:
+            jsFile.write('var aggBooks = [{}]'.format(',\n'.join(jlFile.read().splitlines())))
 
 
 if __name__ == '__main__':

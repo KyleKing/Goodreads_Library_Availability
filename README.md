@@ -14,16 +14,10 @@ Open an issue if you have a different library to search.
 
 ## Quick Start
 
-If you have Python ^3.6 and the required packages from `poetry.toml` (`rauth` and `beautifulsoup4`). You can run this app with `python goodreads-library-availability.py`
+If you have Python ^3.6 and the required packages from `poetry.toml` (`rauth`, `beautifulsoup4`, etc.). You can run this app with `python main.py`
 
-The more reliable way is to install Poetry ([https://github.com/sdispater/poetry](https://github.com/sdispater/poetry#installation)). Then run `poetry install` and `poetry run python goodreads-library-availability.py`.
+The more reliable way is to install Poetry ([https://github.com/sdispater/poetry](https://github.com/sdispater/poetry#installation)). Then run `poetry install` and `poetry run python main.py`.
 
 ## Testing
 
-With `poetry` installed, run `poetry shell` then `pytest`
-
-### TODO
-
-- Add tests
-- Add logging
-- Better visualization of CSV output
+With `poetry` installed, run `poetry shell` then `pytest` or `pytest -l -x`.
