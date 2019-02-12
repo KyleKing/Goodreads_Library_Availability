@@ -1,0 +1,13 @@
+table.dataTable th,
+table.dataTable td {
+  padding: 5px 7px;
+}
+
+table.dataTable th.col-narrow {
+  padding: 1px 2px;
+  font-size: 12px;
+}
+
+input {
+  width: 95%;
+}

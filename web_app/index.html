@@ -1,0 +1,63 @@
+<html>
+<head>
+  <title>Book Availability</title>
+  <meta name="description" content="Book Availability">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width">
+
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/modern-normalize/0.5.0/modern-normalize.min.css">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <!-- Create custom CDN URL: https://datatables.net/download/ -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/jq-3.3.1/dt-1.10.18/sl-1.2.6/datatables.min.css"/>
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/plug-ins/1.10.19/features/searchHighlight/dataTables.searchHighlight.css">
+
+  <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+  <table id="dt-books" class="display">
+    <thead>
+      <tr>
+        <th></th>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Rating</th>
+        <th>Kindle</th>
+        <th>E-Resource</th>
+        <th>Physical</th>
+        <th>Unknown</th>
+      </tr>
+    </thead>
+    <!-- tbody inserted by DT -->
+    <tfoot>
+      <tr id="search-row">
+        <th class="tfoot-no-search"></th>
+        <th>Filter Title</th>
+        <th>Filter Author</th>
+        <th>Number</th>
+        <th>Number</th>
+        <th>Number</th>
+        <th>Number</th>
+        <th>Number</th>
+      </tr>
+    </tfoot>
+  </table>
+
+  <hr>
+  <h4>Notes:</h4>
+  <ul>
+    <li>Filter by plain text or for the inputs that say "Number" enter either &lt; or &gt; and a digit</li>
+  </ul>
+
+  <!-- Create custom CDN URL: https://datatables.net/download/ -->
+  <script type="text/javascript" src="https://cdn.datatables.net/v/dt/jq-3.3.1/dt-1.10.18/sl-1.2.6/datatables.min.js"></script>
+  <!-- See demo on search highlighting -->
+  <script src="https://bartaz.github.io/sandbox.js/jquery.highlight.js"></script>
+  <script src="https://cdn.datatables.net/plug-ins/1.10.19/features/searchHighlight/dataTables.searchHighlight.min.js"></script>
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script> -->
+  <!-- <script src="https://cdn.datatables.net/plug-ins/1.10.19/sorting/datetime-moment.js"></script> -->
+
+  <script src="library-summary.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>
+
