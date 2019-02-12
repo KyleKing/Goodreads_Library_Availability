@@ -2,15 +2,15 @@
 
 > Check book availability at the Montgomery County Public Library
 
-The app queries the Goodreads API for the authorized user's `To-Read` shelf.
+1. The app queries the Goodreads API for the authorized user's `To-Read` shelf, creating a CSV file
+2. The app then checks each book for availability in the Montgomery Public library digital catalog, creating a JSONL file
+3. The resulting JSONL file can then be viewed in a web browser to see which books are available:
 
-The app then checks each book for availability in the Montgomery Public library digital catalog.
+![Web App Screenshot](web_app/_Screenshot.png)
 
-The result is a CSV summary of all books in the user's To-Read Goodreads shelf (`goodreads-summary.csv`) and a CSV summary of the books and library availability (`library-summary.csv`). I plan to make better output, but for now just open the CSV in R, Numbers, or Excel.
+(Note: still in progress on improving the filtering of library matches and HTML parsing)
 
-Initially I wanted to use the Overdrive API, but they don't provide access for personal projects. This tool could likely be generalized for other public libraries with minor modifications to `gr_lib_sync.moco.searchLib()` and with a custom base url similar to `gr_lib_sync.moco.mocoUrl`.
-
-Open an issue if you have a different library to search.
+Initially I wanted to use the Overdrive API, but they don't provide access for personal projects. This tool could likely be generalized for other public libraries with minor modifications to `gr_lib_sync.moco.searchLib()` and with a custom base url similar to `gr_lib_sync.moco.mocoUrl`
 
 ## Quick Start
 
@@ -20,4 +20,4 @@ The more reliable way is to install Poetry ([https://github.com/sdispater/poetry
 
 ## Testing
 
-With `poetry` installed, run `poetry shell` then `pytest` or `pytest -l -x`.
+With `poetry` installed, run `poetry shell` then `pytest` (or `pytest -l -x`, etc.).
