@@ -1,9 +1,13 @@
 # Goodreads Library Availability
 
-> Check book availability at the Montgomery County Public Library
+> **Note**
+>
+> I am archiving this project because I don't read books fast enough to require batch comparison of my reading list to available books... I have also migrated from Goodreads to StoryGraph and moved to a different public library, so this specific implementation is less useful
+
+Check book availability at a local Public Library
 
 1. The app queries the Goodreads API for the authorized user's `To-Read` shelf, creating a CSV file
-2. The app then checks each book for availability in the Montgomery Public library digital catalog, creating a JSONL file
+2. The app then checks each book for availability in the Public library digital catalog, creating a JSONL file
 3. The resulting JSONL file can then be viewed in a web browser to see which books are available:
 
 ![Web App Screenshot](web_app/_Screenshot.png)
@@ -21,3 +25,9 @@ The more reliable way is to install Poetry ([https://github.com/sdispater/poetry
 ## Testing
 
 With `poetry` installed, run `poetry shell` then `pytest` (or `pytest -l -x`, etc.).
+
+## Improvements
+
+- Add direct link to the book in the public library
+- Limit fields with "None" value
+- Improve filtering matches
